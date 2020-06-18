@@ -18,3 +18,14 @@ $ rebar3 shell
 ```
 
 The web-frontend is served at http://localhost:8000/
+
+
+## how to get data (fast)
+
+Name des gen_servers: {global, accounts}
+
+ab jetzt alles: gen_server:cast({global, accounts}, {register, node(), self()})
+alles bis jetzt: gen_server:cast({global, accounts}, {replay, node(), self()})
+
+format der returns
+
