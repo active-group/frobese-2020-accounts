@@ -29,9 +29,9 @@ init([]) ->
     SupFlags = #{strategy => one_for_all, intensity => 0,
                  period => 1},
     ChildSpecs = [#{id => ac0,
-                    start => {account_server, start_link, []}, restart => permanent,
+                    start => {accounts_server, start_link, []}, restart => permanent,
                     shutdown => brutal_kill, type => worker,
-                    modules => [account_server]}],
+                    modules => [accounts_server]}],
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions
