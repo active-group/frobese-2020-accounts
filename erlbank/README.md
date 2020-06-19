@@ -22,8 +22,8 @@ The web-frontend is served at http://localhost:8000/
 
 Name des gen_servers: {global, accounts}
 
-ab jetzt alles: gen_server:cast({global, accounts}, {register, node(), self()})
-alles bis jetzt: gen_server:cast({global, accounts}, {replay, node(), self()})
+ab jetzt alles: gen_server:cast({global, accounts}, {register, self()})
+alles bis jetzt: gen_server:cast({global, accounts}, {replay, self()})
 
 neuer account: {new, map()}
 replay-antwort: {replay, list(map())}
