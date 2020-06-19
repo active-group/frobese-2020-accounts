@@ -19,7 +19,8 @@ handle_cast(Request, State) ->
             Sender ! {replay, business_logic:get_all_events()},
             {noreply, State};
         {publish, Account} ->
-            lists:foreach(fun(Rec) -> erlang:display({Rec, business_logic:convert(Account)}), Rec ! {new, business_logic:convert(Account)} end, State),
+            {ok, Event} = business_logic:convert(Account), 
+            lists:foreach(fun(Rec) -> Rec ! {new, Event} end, State),
             {noreply, State}
         end.
 
@@ -30,4 +31,4 @@ send_event(Account) ->
     gen_server:cast({global, accounts}, {publish, Account}).
 
 start_link() ->
-    gen_server:start_link({global, accounts}, ?MODULE, [], [{debug, [trace]}]).
+    gen_server:start_link({global, accounts}, ?MODULE, [], []).

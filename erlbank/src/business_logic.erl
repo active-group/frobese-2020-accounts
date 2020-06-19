@@ -4,7 +4,7 @@
 
 -include("data.hrl").
 
--export([open_account/2, get_all_events/0, convert/1]).
+-export([convert/1, get_all_events/0, open_account/2]).
 
 %% Opens an account, that is creates a new account containing a new person
 %% Writes them into database.
@@ -35,6 +35,7 @@ make_account(Person) ->
 
 % kloppt den Account mit Person in eine Map
 -spec convert(#account{}) -> map().
+
 convert(Account = #account{}) ->
     case database:get_person(Account#account.person_id) of
         {ok, Person} ->
@@ -47,9 +48,11 @@ convert(Account = #account{}) ->
     end.
 
 -spec get_all_events() -> [map()].
-get_all_events() -> 
-    Accounts = database:get_all_accounts(), 
-    lists:map(fun(Account) -> convert(Account) end, Accounts).
 
-
-
+get_all_events() ->
+    Accounts = database:get_all_accounts(),
+    lists:map(fun (Account) ->
+                      {ok, Event} = convert(Account),
+                      Event
+              end,
+              Accounts).
