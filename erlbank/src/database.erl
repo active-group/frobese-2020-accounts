@@ -8,6 +8,8 @@
          put_account/1,
          put_person/1,
          get_person/1,
+         get_account/1,
+         get_all_accounts/0,
          unique_account_number/0,
          unique_person_id/0]).
 
@@ -65,6 +67,14 @@ get_person(PersonId) ->
 -spec get_all_persons() -> list(#person{}).
 get_all_persons() ->
     read_all(person).
+
+-spec get_account(account_number()) -> {ok, #account{}} | {error, any()}.
+get_account(AccountNumber) ->
+    read_one(account, AccountNumber).
+
+-spec get_all_accounts() -> list(#account{}).
+get_all_accounts() ->
+    read_all(account).
 
 -spec read_one(mnesia:table(), unique_id()) -> {ok, tuple()} | {error, not_found | more_than_one}.
 read_one(Table, Id) ->
